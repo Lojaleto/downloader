@@ -1,2 +1,2 @@
-# downloader
-download function with bar adapted for jupyter
+# loader
+load function with bar adapted for jupyter
