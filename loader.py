@@ -33,6 +33,7 @@ def download(url, file):
         stdout([' ', '', ''])
         times = {}
         time_start = time.time()
+        time_up = 0
 
         for data in response.iter_content(chunk_size=max(int(total/1000), 1024*1024)):
             downloaded += len(data)
@@ -43,7 +44,9 @@ def download(url, file):
             mbs = round(downloaded/(1024*1024)/(time.time()-time_start), 1)
             sec = round((time.time()-time_start) * (total-downloaded)/downloaded)
 
-            stdout(['=' * done + '>', '.' * (12-done), f'{name} ~ {mb}MB {perc}% {sec}s {mbs}MB/s'])
+            if (time_up+0.3) < time.time():
+                stdout(['=' * done + '>', '.' * (12-done), f'{name} ~ {mb}MB {perc}% {sec}s {mbs}MB/s'])
+                time_up = time.time()
 
         stdout(['*', '', f'{name} - done\n'])
         return
