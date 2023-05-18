@@ -3,6 +3,8 @@ import sys
 import os
 import re
 import time
+import requests
+from urllib.parse import urlencode
 
 def download(url, file):
     folder = re.search('(\./)?([0-9a-zA-Zа-яА-Я+_-]+/)+', file).group(0)
@@ -55,3 +57,8 @@ def stdout(out):
     sys.stdout.write('\r[{}{}] {}'.format(out[0], '', ' ' * 1000))
     sys.stdout.write('\r[{}{}] {}'.format(*out))
     sys.stdout.flush()
+
+def encode(base_url, public_key):
+	final_url = base_url + urlencode(dict(public_key=public_key))
+	response = requests.get(final_url)
+	return(response.json()['href'])
