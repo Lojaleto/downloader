@@ -1,15 +1,19 @@
-import requests
-import sys
 import os
 import re
+import sys
 import time
 import requests
 from urllib.parse import urlencode
 
+def stdout(out):
+    sys.stdout.write('\r[{}{}] {}'.format(out[0], '', ' ' * 1000))
+    sys.stdout.write('\r[{}{}] {}'.format(*out))
+    sys.stdout.flush()
+
 def download(url, file):
     folder = re.search('(\./)?([0-9a-zA-Zа-яА-Я+_-]+/)+', file).group(0)
     if os.path.exists(folder) == False: os.makedirs(folder, exist_ok=True);
-    
+
     name = re.search('[0-9a-zA-Zа-яА-Я+_-]+\.[0-9a-zA-Zа-яА-Я]+$', file).group(0)
     response = requests.get(url, stream=True)
     total = response.headers.get('content-length')
@@ -53,12 +57,7 @@ def download(url, file):
         stdout(['*', '', f'{name} - done\n'])
         return
 
-def stdout(out):
-    sys.stdout.write('\r[{}{}] {}'.format(out[0], '', ' ' * 1000))
-    sys.stdout.write('\r[{}{}] {}'.format(*out))
-    sys.stdout.flush()
-
 def encode(base_url, public_key):
-	final_url = base_url + urlencode(dict(public_key=public_key))
-	response = requests.get(final_url)
-	return(response.json()['href'])
+    final_url = base_url + urlencode(dict(public_key=public_key))
+    response = requests.get(final_url)
+    return(response.json()['href'])
