@@ -11,10 +11,10 @@ def stdout(out):
     sys.stdout.flush()
 
 def download(url, file):
-    folder = re.search('(\./)?([0-9a-zA-Zа-яА-Я+_-]+/)+', file).group(0)
+    folder = re.search('(\../)?(\./)?([\w+-]+/)+', file).group(0)
     if os.path.exists(folder) == False: os.makedirs(folder, exist_ok=True);
 
-    name = re.search('[0-9a-zA-Zа-яА-Я+_-]+\.[0-9a-zA-Zа-яА-Я]+$', file).group(0)
+    name = re.search('[\w+-]+\.[\w]+$', file).group(0)
     response = requests.get(url, stream=True)
     total = response.headers.get('content-length')
 
