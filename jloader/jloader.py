@@ -11,7 +11,7 @@ def stdout(out):
     sys.stdout.flush()
 
 def download(url, file):
-    folder = re.search('(\../)?(\./)?([\w+-]+/)+', file).group(0)
+    folder = re.search('(\.{1,2}/)?([\w+-]+/)+', file).group(0)
     if os.path.exists(folder) == False: os.makedirs(folder, exist_ok=True);
 
     name = re.search('[\w+-]+\.[\w]+$', file).group(0)
